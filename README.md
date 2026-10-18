@@ -27,7 +27,7 @@ A patient enters their medicines (name and optional strength). CompareRx checks 
 These are product promises, and the design enforces them.
 
 1. **No source, no answer.** Every statement must be backed by a retrievable source with an exact quote. If no source is found, the tool says "I am unable to find the answer" instead of guessing.
-2. **No data stored.** Medicine lists (and later, images) are never saved or logged.
+2. **No data stored.** Medicine lists (and later, images) are never saved or logged. Saving medicines per user will be implemented in a later phase.
 3. **Always refer to a professional.** A fixed disclaimer is added to every result, and the tool never says medicines are "safe" or advises changing a dose.
 4. **Read, don't guess.** In the photo versions, only text visible in the image can become a medicine name, and the patient confirms every extracted medicine.
 
@@ -36,7 +36,7 @@ These are product promises, and the design enforces them.
 | Increment | What it delivers |
 |---|---|
 | PoC | Prove we can give sourced answers, or an honest "unable to find", for a small set of medicines |
-| Version 1 | Safe, usable launch for real patients |
+| Version 1 | Safe, usable launch for real users |
 | Version 2 | Add medicines by photographing a medicine strip (agent-based extraction) |
 | Version 3 | Add medicines by uploading a handwritten prescription (agent-based extraction) |
 | Version 4 | Better matching, patient context, elderly-friendly design |
