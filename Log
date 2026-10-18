@@ -1,0 +1,8 @@
+Github: Created a repository named CompareRx on github
+Local machine:
+    git init
+    git add README.md
+    git commit -m "first commit"
+    git branch -M main
+    git remote add origin https://github.com/KoteshB/CompareRx.git
+    git push -u origin main
