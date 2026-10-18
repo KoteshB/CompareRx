@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MedsCheck References</title>
+<style>
+  :root {
+    --bg: #f3f8f6;
+    --surface: #ffffff;
+    --fg: #10261f;
+    --muted: #4b6159;
+    --line: #c3d3cc;
+    --brand: #14532d;
+    --link: #0f766e;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0c1613; --surface: #13221d; --fg: #e3efea; --muted: #9db5ac;
+      --line: #2b403a; --brand: #4ade80; --link: #5eead4;
+      color-scheme: dark;
+    }
+  }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 40px max(16px, env(safe-area-inset-left, 0px));
+  }
+  main { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+  h1 { margin: 0; font-size: 2rem; line-height: 1.2; color: var(--brand); }
+  p { margin: 0; color: var(--muted); }
+  ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; }
+  li strong { font-size: 1.05rem; }
+  a { color: var(--link); overflow-wrap: anywhere; }
+  a:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>References</h1>
+  <p>Sources used by MedsCheck. This list will grow as data sources are chosen.</p>
+  <ol>
+    <li>
+      <strong>Central Drugs Standard Control Organization</strong>
+      <a href="https://cdsco.gov.in/opencms/opencms/en/consumer/Essential-Medicines/" target="_blank" rel="noopener noreferrer">https://cdsco.gov.in/opencms/opencms/en/consumer/Essential-Medicines/</a>
+    </li>
+  </ol>
+</main>
+</body>
+</html>

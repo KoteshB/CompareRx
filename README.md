@@ -62,6 +62,7 @@ Details, steps and exit criteria are in [docs/roadmap.md](docs/roadmap.md).
 | [docs/design-decisions.md](docs/design-decisions.md) | Decision log with reasons |
 | [docs/poc-system-prompt.md](docs/poc-system-prompt.md) | LLM system prompt, output schema and verification checks |
 | [docs/evals.md](docs/evals.md) | The evals to run for each roadmap increment |
+| [docs/References.html](docs/References.html) | Reference sources used by MedsCheck |
 | [CLAUDE.md](CLAUDE.md) | Guidance for Claude Code when working in this repository |
 
 ## Open decisions
