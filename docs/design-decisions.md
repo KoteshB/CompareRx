@@ -16,6 +16,7 @@ Related: [prd.md](prd.md), [roadmap.md](roadmap.md), [architecture.md](architect
 | D8 | No logging or storage of medicine lists | Accepted (product promise) |
 | D9 | Treat medicine and source text as untrusted data | Accepted |
 | D10 | Names read from photos need patient confirmation; images are never stored | Proposed (for Versions 2 and 3) |
+| D11 | Saving medicines per user in a later phase, opt-in only | Proposed (not scheduled) |
 
 ---
 
@@ -68,6 +69,7 @@ Related: [prd.md](prd.md), [roadmap.md](roadmap.md), [architecture.md](architect
 
 ## D8: No logging or storage of medicine lists
 
+- **Scope:** Applies to the PoC and every version up to the later saved-list phase. D11 describes the planned exception.
 - **Decision:** Medicine lists, model responses and source matches are never written to a database, log or analytics event. Logs may hold counts only (for example "3 findings, 1 dropped"), never medicine names.
 - **Why:** This is a promise in the product's own UI copy and the PRD.
 - **Consequences:** Debugging has to rely on a synthetic test set rather than real traffic. Third-party providers must not retain request data. `[NEEDS INPUT]`
@@ -88,3 +90,15 @@ Related: [prd.md](prd.md), [roadmap.md](roadmap.md), [architecture.md](architect
   - Images are processed in memory and discarded. They are not saved, logged or used for training, and metadata is stripped on upload.
 - **Why:** A wrongly read name feeds the wrong medicine into a safety check, which is the same failure as a hallucinated answer, just earlier in the flow. Confirmation by the patient and honest "can't read this" results keep the "no guessing" rule intact. Images are more sensitive than typed names, so the no-storage promise (D8) applies to them too.
 - **Open:** Whether images may go to the same LLM provider, and how to build a consented, anonymised test set without breaking the no-storage promise. `[NEEDS INPUT]`
+
+## D11: Saving medicines per user in a later phase, opt-in only
+
+- **Status:** Proposed. Not scheduled in a version; see the "Later phase" section of [roadmap.md](roadmap.md).
+- **Decision:** A later phase will let users save their medicines. The no-storage rule (D8) stays in force for everyone who does not opt in, and until this phase ships.
+- **Why:** Patients with long-term conditions need to keep their list current, and retyping it is a barrier for elderly users.
+- **Proposed limits** `[ASSUMPTION]`:
+  - Opt-in only, with clear consent wording.
+  - Store only medicine names and strengths. Never store results, model output, photos or prescriptions.
+  - Users can see, export and delete their data.
+  - No medicine data in logs or analytics, even for signed-in users.
+- **Consequences:** The UI promise "not saved on the servers" and the "No data stored" wording in CLAUDE.md, the PRD and the README must be updated before this ships. Needs a privacy and legal review first. `[NEEDS INPUT]`

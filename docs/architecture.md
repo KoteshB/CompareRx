@@ -57,6 +57,7 @@ Results page (nothing stored, nothing logged)
 
 ## Data handling
 
+- This describes the PoC and every version before the later saved-list phase (see D11 in [design-decisions.md](design-decisions.md)). That phase will add a user store and needs its own architecture section.
 - Medicine lists live in memory for the length of one request.
 - Nothing is written to a database, file or log. Counts only may be logged.
 - The model provider receives the medicine list and passages. Its retention terms must be confirmed before real patient data is used. `[NEEDS INPUT]`

@@ -41,7 +41,7 @@ CompareRx is a medicine interaction and risk checker. It is labelled "Prototype"
 
 These are product promises. Don't violate them in the implementation.
 
-- **No data stored**: the medicine list is not saved on the servers. Don't add persistence or logging of user medicine lists.
+- **No data stored**: the medicine list is not saved on the servers. Don't add persistence or logging of user medicine lists. A later, opt-in "save medicines per user" phase is planned (`docs/design-decisions.md`, D11), but it is not scheduled. Don't build any storage until that decision is accepted.
 - **Disclaimer**: the tool gives general information and is not a substitute for professional medical advice. Results must stay framed that way and must always direct users to a healthcare provider or pharmacist.
 - **Sourcing**: results should cite and link reliable sources, not rely on LLM output alone.
 - **Palette**: the visual style is a teal/green palette with dark-green primary buttons.

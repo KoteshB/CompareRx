@@ -4,7 +4,7 @@ Delivery plan (PoC, Version 1, Version 2, ...): see [roadmap.md](roadmap.md).
 
 ## 1. Problem Statement
 
-In India, no automatic check looks at the full list of medicines a patient has been prescribed. Patients often see several doctors, and each doctor prescribes without knowing what the others have already prescribed. This can lead to double dosing (for example, two brands with the same active ingredient) and to unsafe combinations. Patients, especially elderly ones, are left to spot these problems themselves. They usually don't know what to ask their doctor or pharmacist.
+In India, when medicines are prescribed on paper (not through an electronic medical record system), no automatic check looks at the full list of medicines a patient has been prescribed. Patients often see several doctors, and each doctor prescribes without knowing what the others have already prescribed. This can lead to double dosing (for example, two brands with the same active ingredient) and to unsafe combinations. Patients, especially elderly ones, are left to spot these problems themselves. They usually don't know what to ask their doctor or pharmacist.
 
 CompareRx lets a patient enter their medicine list and get back:
 - possible risks
@@ -30,7 +30,7 @@ All targets below are `[NEEDS INPUT]` because there is no baseline yet.
 
 - It does not diagnose conditions or recommend starting, stopping or changing any medicine or dose.
 - It does not replace a doctor or pharmacist, and results never say it does.
-- It does not store, save or log medicine lists, and there are no user accounts or history.
+- It does not store, save or log medicine lists, and there are no user accounts or history. Saving medicines per user is planned for a later phase (see [roadmap.md](roadmap.md)); until then nothing is stored.
 - It does not read photos of medicine strips or prescriptions in Version 1. Strip photos come in Version 2 and handwritten prescriptions in Version 3 (see [roadmap.md](roadmap.md)). `[ASSUMPTION]`
 - It does not cover supplements, herbal or Ayurvedic products, or food interactions in version 1. `[ASSUMPTION]`
 - It does not provide ordering, pricing or pharmacy features.
@@ -56,7 +56,7 @@ All targets below are `[NEEDS INPUT]` because there is no baseline yet.
 - As a patient, I want a link to a reliable source for each risk so that I can verify it.
 - As a patient, I want to be told "I am unable to find the answer" when no source exists so that I'm never misled.
 - As a patient, I want a clear reminder to talk to my doctor or pharmacist so that I don't treat the tool as medical advice.
-- As a patient, I want to know my medicine list is not saved so that I can use the tool privately.
+- As a patient, I want to know my medicine list is not saved (until the later saved-list feature exists, and then only with my consent) so that I can use the tool privately.
 
 **Should-have**
 - As a patient, I want a list of questions to ask my doctor so that I know what to raise.
@@ -118,6 +118,7 @@ All targets below are `[NEEDS INPUT]` because there is no baseline yet.
 6. Does Indian law require specific disclaimers or registration for a health information tool? (Owner: Legal)
 7. Which languages are needed at launch? (Owner: PM)
 8. Should the tool show severity levels, and who defines them? (Owner: clinical advisor)
+9. When saving medicines per user is added, how does it fit with the "no data stored" promise? This covers consent, sign-in, where data is kept, deletion, and the legal requirements for health data in India. (Owner: PM + Legal) `[NEEDS INPUT]`
 
 ## 9. Success Metrics
 

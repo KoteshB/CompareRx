@@ -75,6 +75,14 @@ Targets in this file are drafts. `[NEEDS INPUT]`
 | V5.2 Languages | **Native-speaker review** of medical meaning, back-translation spot checks, and the same faithfulness and refusal evals re-run per language. Quotes must stay verbatim from the source. |
 | V5.3 Supplements and food | Coverage plus the same sourcing and refusal evals on the new data. |
 
+## Later phase: saved medicines per user
+
+- **Consent gate:** nothing is stored for a user who has not opted in.
+- **Storage scope audit:** only names and strengths are stored, and never results, model output or images.
+- **Access control:** one user can't read another user's list.
+- **Delete and export:** after deletion, the data is gone from the store and from backups within the stated period.
+- **Log audit:** no medicine data in logs or analytics, including for signed-in users.
+
 ## Rules that apply everywhere
 
 1. **Weight the metrics.** Unsourced claims must be zero, and a missed interaction (false negative) matters more than a false alarm.

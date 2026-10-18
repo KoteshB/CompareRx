@@ -19,6 +19,7 @@ Scope and exit criteria below are drafts. `[ASSUMPTION]`
 | Version 3 | Add medicines by uploading a handwritten prescription (agent-based extraction) | New; PRD nice-to-have "photograph a prescription" story |
 | Version 4 | Better matching, more context, easier for elderly users and caregivers | Should-haves |
 | Version 5 | Reach and convenience | Nice-to-haves |
+| Later phase (not scheduled) | Save medicines per user | Changes the "no data stored" promise |
 
 ## PoC: Prove the sourcing approach
 
@@ -141,6 +142,25 @@ Scope and exit criteria below are drafts. `[ASSUMPTION]`
 1. **V5.1: Print or share results.** For caregivers to bring to the doctor, generated on the user's device without saving anything on the server.
 2. **V5.2: Hindi and other Indian languages.** Priority order to be decided. Includes reading strips and prescriptions in those languages.
 3. **V5.3: Supplements, herbal and Ayurvedic products, and food interactions.** Only where trusted sources exist.
+
+## Later phase (not scheduled): Save medicines per user
+
+**Goal:** A patient can keep their medicine list between visits, so they don't retype it and can see changes over time.
+
+**Why it is separate:** Today the product promises that no medicine list is saved. This feature is the first one that breaks that promise on purpose, so it needs its own decision, consent flow and privacy review before any build. See [design-decisions.md](design-decisions.md), D11. The phase has not been placed in a version yet. `[NEEDS INPUT]`
+
+**Questions to settle first**
+- Saving is opt-in only, so people who don't sign in keep the no-storage behaviour. `[ASSUMPTION]`
+- How do users sign in, and what is the minimum personal data we hold?
+- Where is the data stored, how is it protected, and how can a user delete it?
+- What do Indian data protection rules require for health data, and who owns that review?
+- The "not saved on the servers" wording in the UI must change before launch.
+
+**Increments (draft)**
+1. **L.1: Decision and legal review.** Write the privacy design, consent wording and retention rules.
+2. **L.2: Sign-in and consent.** Opt-in account creation with a clear explanation of what is saved.
+3. **L.3: Saved list.** Store names and strengths only, never results, images or model output.
+4. **L.4: Delete and export.** The user can see, export and delete everything we hold.
 
 ## Cross-cutting decisions needed before the PoC
 

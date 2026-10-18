@@ -27,7 +27,7 @@ A patient enters their medicines (name and optional strength). CompareRx checks 
 These are product promises, and the design enforces them.
 
 1. **No source, no answer.** Every statement must be backed by a retrievable source with an exact quote. If no source is found, the tool says "I am unable to find the answer" instead of guessing.
-2. **No data stored.** Medicine lists (and later, images) are never saved or logged. Saving medicines per user will be implemented in a later phase.
+2. **No data stored.** Medicine lists (and later, images) are never saved or logged. Saving medicines per user will be implemented in a later phase, opt-in only (see [design decision D11](docs/design-decisions.md)).
 3. **Always refer to a professional.** A fixed disclaimer is added to every result, and the tool never says medicines are "safe" or advises changing a dose.
 4. **Read, don't guess.** In the photo versions, only text visible in the image can become a medicine name, and the patient confirms every extracted medicine.
 
@@ -41,6 +41,7 @@ These are product promises, and the design enforces them.
 | Version 3 | Add medicines by uploading a handwritten prescription (agent-based extraction) |
 | Version 4 | Better matching, patient context, elderly-friendly design |
 | Version 5 | Print or share results, more Indian languages, supplements and food interactions |
+| Later phase (not scheduled) | Save medicines per user, opt-in only, after a privacy and legal review |
 
 Details, steps and exit criteria are in [docs/roadmap.md](docs/roadmap.md).
 
@@ -72,6 +73,7 @@ Still to be decided (see the open questions in the PRD and roadmap):
 - Data retention terms of the LLM provider for our account
 - Who the clinical reviewer is
 - How to build a consented, anonymised test set for strip and prescription photos
+- How saving medicines per user fits the "no data stored" promise (consent, sign-in, deletion, Indian health-data rules)
 
 ## Contributing
 
