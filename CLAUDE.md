@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Current state
 
-The repository contains no source code yet, and it isn't a git repository. It holds a single UI mockup, `UX/CompareRxMedicineRiskEvaluationUI.png`, a `README.md`, and planning docs in `docs/`. There are no build, lint, or test commands and no package manifest. When the stack is chosen, update this file with the real commands and architecture.
+The repository contains no source code yet, and it isn't a git repository. It holds a single UI mockup, `UX/MedsCheckDashboard.png`, a `README.md`, and planning docs in `docs/`. There are no build, lint, or test commands and no package manifest. When the stack is chosen, update this file with the real commands and architecture.
 
 ## Planning docs
 

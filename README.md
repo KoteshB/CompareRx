@@ -20,7 +20,7 @@ A patient enters their medicines (name and optional strength). MedsCheck checks 
 - questions to ask a doctor or pharmacist
 - links to the sources behind every statement
 
-![MedsCheck mockup](UX/CompareRxMedicineRiskEvaluationUI.png)
+![MedsCheck mockup](UX/MedsCheckDashboard.png)
 
 ## Principles
 
