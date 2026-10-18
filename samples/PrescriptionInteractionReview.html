@@ -1,0 +1,260 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Prescription Interaction Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: report header, red-pair summary, then one wide scrollable table (15 rows) */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --fg: #1b2230;
+  --muted: #566073;
+  --line: #d9dee6;
+  --head: #e9eef4;
+  --accent: #1f4e79;
+  --risk: #b42318;
+  --risk-bg: #fdecea;
+  --risk-line: #f0b4ac;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11151c; --surface: #19202a; --fg: #e5e9f0; --muted: #9aa5b8;
+    --line: #2a3341; --head: #212a37; --accent: #7fb4ea;
+    --risk: #ff9088; --risk-bg: #3b201f; --risk-line: #6e3431;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11151c; --surface: #19202a; --fg: #e5e9f0; --muted: #9aa5b8;
+  --line: #2a3341; --head: #212a37; --accent: #7fb4ea;
+  --risk: #ff9088; --risk-bg: #3b201f; --risk-line: #6e3431;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 14px; line-height: 1.5;
+  padding-block: 24px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+header h1 { margin: 0 0 4px; font-size: 24px; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
+header p { margin: 0; color: var(--muted); max-width: 70ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; color: var(--muted); font-size: 13px; }
+.legend .chip { cursor: default; }
+
+.summary { background: var(--risk-bg); border: 1px solid var(--risk-line); border-radius: 8px; padding: 14px 16px; }
+.summary h2 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--risk); }
+.summary ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.summary li { color: var(--risk); font-weight: 500; }
+.summary li span { color: var(--fg); font-weight: 400; }
+
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 1120px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { background: var(--head); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+td.no { font-family: var(--font-mono); font-weight: 600; width: 40px; color: var(--muted); font-variant-numeric: tabular-nums; }
+tr.flag td.no { color: var(--risk); }
+td.med { font-weight: 600; min-width: 130px; }
+td.med small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+td.contents { min-width: 150px; }
+td.combo { min-width: 190px; }
+td.text { min-width: 200px; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { display: inline-block; font-size: 12px; line-height: 1.3; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--head); color: var(--fg); white-space: nowrap; }
+.chip.risk { color: var(--risk); background: var(--risk-bg); border-color: var(--risk-line); font-weight: 600; }
+.chip.risk::before { content: "! "; font-family: var(--font-mono); }
+.r { color: var(--risk); font-weight: 600; }
+.none { color: var(--muted); }
+footer { color: var(--muted); font-size: 13px; display: grid; gap: 10px; max-width: 80ch; }
+footer h2 { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg); }
+footer ol { margin: 0; padding-left: 20px; display: grid; gap: 3px; }
+footer p { margin: 0; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Prescription Interaction Review</h1>
+    <p>15 medicines from one prescription (review after 5 days), with each medicine's contents, the other medicines to review it with, and what to ask the doctor.</p>
+  </header>
+
+  <div class="legend">
+    <span><span class="chip risk">8 Sompraz D</span> high-risk combination or overlapping therapy</span>
+    <span><span class="chip">1 Thyronorm</span> review, lower risk</span>
+    <span><span class="r">Red text</span> marks the high-risk part of an interaction</span>
+  </div>
+
+  <section class="summary" aria-label="High-risk pairs">
+    <h2>High-risk pairs</h2>
+    <ul>
+      <li>8 Sompraz D + 15 Storvas CV <span>Esomeprazole weakens the clopidogrel in Storvas CV.</span></li>
+      <li>4 Planep + 2 Sartel H <span>Eplerenone and telmisartan both raise potassium.</span></li>
+      <li>5 Rexipra Forte + 8 Sompraz D, 7 Formonide, 11 Starizo <span>QT prolongation and serotonin syndrome; esomeprazole also raises escitalopram levels.</span></li>
+      <li>13 Jalra M + 6 Lactihep, 2 Sartel H, 4 Planep <span>Dehydration and kidney strain let metformin build up (lactic acidosis).</span></li>
+      <li>10 Cetil CV + 11 Starizo <span>Two antibiotics at once; confirm both are needed.</span></li>
+    </ul>
+  </section>
+
+  <div class="scroll" role="region" aria-label="Medicine table" tabindex="0">
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th><th>Medicine</th><th>Likely contents</th><th>Risky combination (review with)</th><th>Interactions</th><th>Risks</th><th>Talk to doctor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="no">1</td>
+          <td class="med">Thyronorm<small>75 mcg, once daily</small></td>
+          <td class="contents">Levothyroxine</td>
+          <td class="combo"><div class="chips"><span class="chip">8 Sompraz D</span><span class="chip">9 Neurorex Forte</span><span class="chip">13 Jalra M</span></div></td>
+          <td class="text">Esomeprazole and the Neurorex minerals reduce absorption. Can raise blood sugar.</td>
+          <td class="text">Under- or over-replacement; palpitations if the dose is too high.</td>
+          <td class="text">Recheck TSH after 6–8 weeks. Take alone on an empty stomach.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">2</td>
+          <td class="med">Sartel H<small>40/12.5, once daily</small></td>
+          <td class="contents">Telmisartan + hydrochlorothiazide</td>
+          <td class="combo"><div class="chips"><span class="chip risk">4 Planep</span><span class="chip">5 Rexipra Forte</span><span class="chip">6 Lactihep</span><span class="chip risk">13 Jalra M</span></div></td>
+          <td class="text"><span class="r">Potassium shifts with eplerenone.</span> Low sodium with escitalopram. <span class="r">Fluid loss strains the kidneys and metformin.</span></td>
+          <td class="text">Abnormal potassium, low sodium, low blood pressure, kidney injury, raised blood sugar.</td>
+          <td class="text">Ask for potassium, sodium and kidney tests. Check whether four blood-pressure drugs are needed.</td>
+        </tr>
+        <tr>
+          <td class="no">3</td>
+          <td class="med">Bisonext<small>2.5 mg, once daily</small></td>
+          <td class="contents">Bisoprolol</td>
+          <td class="combo"><div class="chips"><span class="chip">7 Formonide</span><span class="chip">13 Jalra M</span></div></td>
+          <td class="text">Opposes formoterol. Can mask low blood sugar.</td>
+          <td class="text">Slow pulse, dizziness, wheeze.</td>
+          <td class="text">Ask whether it is safe alongside the nebulizer.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">4</td>
+          <td class="med">Planep<small>25 mg, once daily</small></td>
+          <td class="contents">Eplerenone</td>
+          <td class="combo"><div class="chips"><span class="chip risk">2 Sartel H</span><span class="chip">6 Lactihep</span><span class="chip">13 Jalra M</span></div></td>
+          <td class="text"><span class="r">Telmisartan raises potassium too.</span> Dehydration strains the kidneys.</td>
+          <td class="text"><span class="r">High potassium, which can cause dangerous heart rhythms.</span></td>
+          <td class="text">Ask for potassium and kidney checks. Avoid potassium supplements and salt substitutes.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">5</td>
+          <td class="med">Rexipra Forte<small>once daily</small></td>
+          <td class="contents">Escitalopram + clonazepam</td>
+          <td class="combo"><div class="chips"><span class="chip">2 Sartel H</span><span class="chip risk">7 Formonide</span><span class="chip risk">8 Sompraz D</span><span class="chip risk">11 Starizo</span><span class="chip risk">15 Storvas CV</span></div></td>
+          <td class="text"><span class="r">Esomeprazole raises escitalopram levels. QT effects with domperidone and formoterol. Serotonin risk with tedizolid. Bleeding risk with clopidogrel.</span></td>
+          <td class="text">Sedation, falls, QT prolongation, bleeding, serotonin toxicity.</td>
+          <td class="text">Ask for an ECG and sodium check. Avoid alcohol and opioids. Do not stop suddenly.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">6</td>
+          <td class="med">Lactihep<small>20 ml, once daily</small></td>
+          <td class="contents">Lactulose <span class="none">(unconfirmed)</span></td>
+          <td class="combo"><div class="chips"><span class="chip">2 Sartel H</span><span class="chip">4 Planep</span><span class="chip">7 Formonide</span><span class="chip risk">13 Jalra M</span></div></td>
+          <td class="text"><span class="r">Adds fluid and potassium loss, which strains the kidneys and raises metformin buildup.</span></td>
+          <td class="text">Diarrhea, dehydration, low potassium.</td>
+          <td class="text">Ask for a stool target. Reduce the dose if stools are too loose.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">7</td>
+          <td class="med">Formonide<small>nebulizer, twice daily</small></td>
+          <td class="contents">Formoterol + budesonide</td>
+          <td class="combo"><div class="chips"><span class="chip">2 Sartel H</span><span class="chip">3 Bisonext</span><span class="chip risk">5 Rexipra Forte</span><span class="chip">6 Lactihep</span><span class="chip risk">8 Sompraz D</span><span class="chip">11 Starizo</span></div></td>
+          <td class="text">Opposed by bisoprolol. Lowers potassium. <span class="r">QT effects with escitalopram and domperidone.</span></td>
+          <td class="text">Palpitations, low potassium, QT prolongation.</td>
+          <td class="text">Ask for potassium and ECG checks. Report wheeze or a racing heart.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">8</td>
+          <td class="med">Sompraz D<small>40 mg, once daily</small></td>
+          <td class="contents">Esomeprazole + domperidone</td>
+          <td class="combo"><div class="chips"><span class="chip">1 Thyronorm</span><span class="chip risk">5 Rexipra Forte</span><span class="chip risk">7 Formonide</span><span class="chip">10 Cetil CV</span><span class="chip risk">15 Storvas CV</span></div></td>
+          <td class="text"><span class="r">Weakens clopidogrel. Raises escitalopram levels. QT effects.</span> Reduces absorption of levothyroxine and cefuroxime.</td>
+          <td class="text">Reduced antiplatelet effect, QT prolongation, low magnesium.</td>
+          <td class="text"><span class="r">Ask whether pantoprazole can replace esomeprazole.</span> Ask whether domperidone is needed.</td>
+        </tr>
+        <tr>
+          <td class="no">9</td>
+          <td class="med">Neurorex Forte<small>once daily</small></td>
+          <td class="contents">B-vitamins, alpha-lipoic acid, chromium, selenium</td>
+          <td class="combo"><div class="chips"><span class="chip">1 Thyronorm</span></div></td>
+          <td class="text">Minerals may reduce levothyroxine absorption.</td>
+          <td class="text">Low risk.</td>
+          <td class="text">Take 4 hours apart from Thyronorm.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">10</td>
+          <td class="med">Cetil CV<small>twice daily, after food</small></td>
+          <td class="contents">Cefuroxime + clavulanic acid</td>
+          <td class="combo"><div class="chips"><span class="chip">8 Sompraz D</span><span class="chip risk">11 Starizo</span><span class="chip">12 Providac</span></div></td>
+          <td class="text"><span class="r">Overlaps with Starizo, a second antibiotic.</span> Acid suppression reduces absorption. The antibiotic reduces probiotic effect.</td>
+          <td class="text">Diarrhea, allergic reaction.</td>
+          <td class="text">Take with food. Confirm the course length and why two antibiotics are needed.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">11</td>
+          <td class="med">Starizo<small>200 mg, once daily</small></td>
+          <td class="contents">Tedizolid</td>
+          <td class="combo"><div class="chips"><span class="chip risk">5 Rexipra Forte</span><span class="chip">7 Formonide</span><span class="chip risk">10 Cetil CV</span><span class="chip">12 Providac</span><span class="chip">15 Storvas CV</span></div></td>
+          <td class="text"><span class="r">Serotonin syndrome risk with escitalopram (rare).</span> May raise statin levels slightly. Second antibiotic alongside Cetil CV.</td>
+          <td class="text">Serotonin toxicity, nausea, headache.</td>
+          <td class="text">Ask whether a second antibiotic is needed with Cetil CV.</td>
+        </tr>
+        <tr>
+          <td class="no">12</td>
+          <td class="med">Providac<small>once daily</small></td>
+          <td class="contents">Probiotic (Lactobacillus + Bifidobacterium)</td>
+          <td class="combo"><div class="chips"><span class="chip">10 Cetil CV</span><span class="chip">11 Starizo</span></div></td>
+          <td class="text">Antibiotics reduce its effect.</td>
+          <td class="text">Low risk.</td>
+          <td class="text">Take 2 hours apart from antibiotics.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">13</td>
+          <td class="med">Jalra M<small>50/500, once daily</small></td>
+          <td class="contents">Vildagliptin + metformin</td>
+          <td class="combo"><div class="chips"><span class="chip">1 Thyronorm</span><span class="chip risk">2 Sartel H</span><span class="chip">3 Bisonext</span><span class="chip risk">4 Planep</span><span class="chip risk">6 Lactihep</span></div></td>
+          <td class="text">Hydrochlorothiazide and levothyroxine raise sugar. <span class="r">Dehydration and kidney strain cause metformin buildup.</span> Bisoprolol masks lows.</td>
+          <td class="text"><span class="r">Lactic acidosis</span>, high or low blood sugar.</td>
+          <td class="text">Ask for kidney function and HbA1c checks. Know the warning signs: deep fast breathing, severe weakness.</td>
+        </tr>
+        <tr>
+          <td class="no">14</td>
+          <td class="med">Daflon<small>1000 mg, twice daily</small></td>
+          <td class="contents">Diosmin + hesperidin</td>
+          <td class="combo"><span class="none">None significant</span></td>
+          <td class="text">No significant interactions found.</td>
+          <td class="text">Mild stomach upset.</td>
+          <td class="text">Confirm why it is prescribed and for how long.</td>
+        </tr>
+        <tr class="flag">
+          <td class="no">15</td>
+          <td class="med">Storvas CV<small>75/10, once daily</small></td>
+          <td class="contents">Clopidogrel 75 mg + atorvastatin 10 mg</td>
+          <td class="combo"><div class="chips"><span class="chip risk">5 Rexipra Forte</span><span class="chip risk">8 Sompraz D</span><span class="chip">11 Starizo</span></div></td>
+          <td class="text"><span class="r">Esomeprazole weakens clopidogrel. SSRI raises bleeding risk.</span> Tedizolid may affect statin levels.</td>
+          <td class="text">Bleeding, muscle pain, reduced antiplatelet effect.</td>
+          <td class="text">Never stop clopidogrel without asking. Report black stools or muscle pain.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <h2>Questions to bring to the doctor</h2>
+    <ol>
+      <li>Can esomeprazole be swapped for a PPI that doesn't interfere with clopidogrel?</li>
+      <li>Can potassium, sodium, magnesium, kidney function and an ECG be checked at the 5-day review?</li>
+      <li>Are all four blood-pressure drugs and both antibiotics needed?</li>
+      <li>Is the escitalopram plus tedizolid combination acceptable?</li>
+    </ol>
+    <p>No ingredient appears twice on the list, so there is no direct double dose as written. Avoid extra clonazepam, escitalopram, diuretics or potassium products on top of these. Brand contents were read from pharmacy listings and the prescription; Lactihep and Formonide are from memory. This is a reference summary, not medical advice.</p>
+  </footer>
+</div>
+
+</body></html>
