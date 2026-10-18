@@ -1,4 +1,4 @@
-# CompareRx Roadmap
+# MedsCheck Roadmap
 
 Companion to [prd.md](prd.md). The PRD says what and why; this file says in what order. See also [architecture.md](architecture.md), [design-decisions.md](design-decisions.md), [poc-system-prompt.md](poc-system-prompt.md) and [evals.md](evals.md) (what to test for each increment below).
 

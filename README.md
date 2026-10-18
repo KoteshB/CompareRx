@@ -1,18 +1,18 @@
-# CompareRx
+# MedsCheck
 
-A medicine interaction and risk checker for patients in India, many of them elderly.
+A medicine interaction and risk checker.
 
 > **Status: planning stage.** This repository holds the product plan and a UI mockup. There is no source code yet.
 
-> **Not medical advice.** CompareRx is meant to give general information only. It does not replace a doctor or pharmacist, and every result must direct the user to one.
+> **Not medical advice.** MedsCheck is meant to give general information only. It does not replace a doctor or pharmacist, and every result must direct the user to one.
 
 ## The problem
 
 When medicines are prescribed on paper (non-EMR based), nothing automatically checks the full list of medicines a patient has been prescribed. Patients often see several doctors, and each doctor prescribes without knowing what the others have prescribed. This can lead to double dosing (for example, two brands with the same active ingredient) and to unsafe combinations. Patients are left to spot these problems themselves and rarely know what to ask.
 
-## What CompareRx will do
+## What MedsCheck will do
 
-A patient enters their medicines (name and optional strength). CompareRx checks the list against trusted drug information and returns:
+A patient enters their medicines (name and optional strength). MedsCheck checks the list against trusted drug information and returns:
 
 - duplicate active ingredients
 - possible interactions
@@ -20,7 +20,7 @@ A patient enters their medicines (name and optional strength). CompareRx checks 
 - questions to ask a doctor or pharmacist
 - links to the sources behind every statement
 
-![CompareRx mockup](UX/CompareRxMedicineRiskEvaluationUI.png)
+![MedsCheck mockup](UX/CompareRxMedicineRiskEvaluationUI.png)
 
 ## Principles
 

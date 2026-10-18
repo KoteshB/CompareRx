@@ -1,4 +1,4 @@
-# PRD: CompareRx Medicine Interaction and Risk Checker
+# PRD: MedsCheck Medicine Interaction and Risk Checker
 
 Delivery plan (PoC, Version 1, Version 2, ...): see [roadmap.md](roadmap.md).
 
@@ -6,7 +6,7 @@ Delivery plan (PoC, Version 1, Version 2, ...): see [roadmap.md](roadmap.md).
 
 In India, when medicines are prescribed on paper (not through an electronic medical record system), no automatic check looks at the full list of medicines a patient has been prescribed. Patients often see several doctors, and each doctor prescribes without knowing what the others have already prescribed. This can lead to double dosing (for example, two brands with the same active ingredient) and to unsafe combinations. Patients, especially elderly ones, are left to spot these problems themselves. They usually don't know what to ask their doctor or pharmacist.
 
-CompareRx lets a patient enter their medicine list and get back:
+MedsCheck lets a patient enter their medicine list and get back:
 - possible risks
 - plain-language explanations
 - questions to ask a healthcare provider
@@ -40,7 +40,7 @@ All targets below are `[NEEDS INPUT]` because there is no baseline yet.
 
 **Primary users:** Patients in India, often elderly, who take several medicines. Their caregivers (usually adult children) are a secondary group.
 
-**Scenario 1: Two doctors, one ingredient.** Mrs. Rao, 72, sees a cardiologist and an orthopaedic doctor. Both give her a painkiller under different brand names. Her son enters all her medicines into CompareRx. The tool flags that two of them share the same active ingredient, explains the overdose risk, links to the source, and suggests asking her doctor or pharmacist whether she needs both.
+**Scenario 1: Two doctors, one ingredient.** Mrs. Rao, 72, sees a cardiologist and an orthopaedic doctor. Both give her a painkiller under different brand names. Her son enters all her medicines into MedsCheck. The tool flags that two of them share the same active ingredient, explains the overdose risk, links to the source, and suggests asking her doctor or pharmacist whether she needs both.
 
 **Scenario 2: New prescription, unsure if safe.** Mr. Iyer, 68, takes metformin and a blood pressure tablet. A new doctor prescribes a third medicine. He enters all three and sees a possible interaction with a source link. He also gets a short list of questions to take back to the doctor.
 

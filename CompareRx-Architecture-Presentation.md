@@ -1,8 +1,8 @@
 Prototype
 
-# CompareRx Architecture
+# MedsCheck Architecture
 
-A medicine interaction and risk checker for patients in India. The same system is shown twice: first for decision-makers, then for the engineering team.
+A medicine interaction and risk checker. The same system is shown twice: first for decision-makers, then for the engineering team.
 
 [For management](#management) [For engineering](#engineering)
 

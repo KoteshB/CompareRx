@@ -27,7 +27,7 @@ Read `docs/design-decisions.md` before changing any of these.
 
 ## Product intent (from the mockup)
 
-CompareRx is a medicine interaction and risk checker. It is labelled "Prototype" in the header.
+MedsCheck is a medicine interaction and risk checker. It is labelled "Prototype" in the header.
 
 - **Frontend**: a single-page UI with nav (Home, About, How It Works, FAQ). The main card is a "Your medicine list" editor with these parts:
   - Each entry has a name and an optional strength, e.g. "Metformin 500 mg".
