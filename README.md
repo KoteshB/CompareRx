@@ -8,7 +8,7 @@ A medicine interaction and risk checker for patients in India, many of them elde
 
 ## The problem
 
-In India, nothing automatically checks the full list of medicines a patient has been prescribed. Patients often see several doctors, and each prescribes without knowing what the others have prescribed. This can lead to double dosing (for example, two brands with the same active ingredient) and to unsafe combinations. Patients are left to spot these problems themselves and rarely know what to ask.
+In certain situations, nothing automatically checks the full list of medicines a patient has been prescribed. Patients often see several doctors, and each prescribes without knowing what the others have prescribed. This can lead to double dosing (for example, two brands with the same active ingredient) and to unsafe combinations. Patients are left to spot these problems themselves and rarely know what to ask.
 
 ## What CompareRx will do
 
