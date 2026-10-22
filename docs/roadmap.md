@@ -13,6 +13,7 @@ Scope and exit criteria below are drafts. `[ASSUMPTION]`
 
 | Increment | Purpose | Main PRD stories covered |
 |---|---|---|
+| Pre-PoC demo | Runnable skeleton: React front end sends a structured medicine list (name, optional dosage) to a FastAPI API served by Uvicorn. No drug data or LLM yet. See [pre-poc-demo.md](pre-poc-demo.md) | Medicine list editor (basic) |
 | PoC | Prove we can give sourced answers, or an honest "unable to find", for a small medicine set | Source link per risk, no source / no answer |
 | Version 1 | Usable by real patients in India, safe and private | All must-haves |
 | Version 2 | Add medicines by photographing the medicine strip (agent-based extraction) | New; PRD nice-to-have "photograph" story, strips only |
