@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedsCheck — Medicine Risk Evaluation</title>
+  <style>
+    :root {
+      --navy: #102d55;
+      --teal: #16a995;
+      --deep-teal: #07584f;
+      --text: #18365f;
+      --muted: #5b7ca7;
+      --line: #dce8f4;
+      --mint: #eef9f6;
+      --pale-blue: #edf7ff;
+      --white: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: #fff;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+    .topbar {
+      height: 72px;
+      padding: 0 max(6.5%, calc((100% - 1120px)/2));
+      display: flex;
+      align-items: center;
+      gap: 44px;
+      background: #fff;
+      border-bottom: 1px solid #f0f4f7;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 29px;
+      letter-spacing: -1.1px;
+      white-space: nowrap;
+    }
+    .brand span span { color: var(--teal); }
+    .brand-icon {
+      width: 31px; height: 39px;
+      color: var(--teal);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(38deg);
+      font-size: 34px;
+    }
+    nav { display: flex; align-items: center; gap: 36px; height: 100%; }
+    nav a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      color: #18365f;
+      text-decoration: none;
+      position: relative;
+      font-size: 13px;
+    }
+    nav a.active { color: #087c70; }
+    nav a.active::after {
+      content: ""; position: absolute; height: 2px; background: var(--teal);
+      left: 0; right: 0; bottom: 17px;
+    }
+    .prototype {
+      margin-left: auto;
+      border-radius: 9px;
+      background: #f1f6fa;
+      color: #5b789f;
+      padding: 7px 13px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .hero {
+      background: linear-gradient(110deg, #eff9f7, #f4fbf9);
+      min-height: 313px;
+      padding: 43px max(6.5%, calc((100% - 1120px)/2)) 34px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 35px;
+    }
+    .hero h1 {
+      font-size: clamp(38px, 4vw, 54px);
+      letter-spacing: -2px;
+      line-height: 1.06;
+      margin: 0 0 15px;
+      color: var(--navy);
+    }
+    .hero h1 span { color: var(--teal); }
+    .hero h2 {
+      font-size: 27px;
+      line-height: 1.28;
+      letter-spacing: -.6px;
+      margin: 0 0 14px;
+      max-width: 510px;
+      color: #102b50;
+    }
+    .hero p {
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 510px;
+      margin: 0;
+    }
+    .hero-art {
+      height: 225px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .art-blob {
+      width: min(360px, 100%);
+      height: 200px;
+      border-radius: 39% 35% 40% 35%;
+      background: #e0f5f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      transform: rotate(-3deg);
+      position: relative;
+    }
+    .capsule {
+      width: 42px; height: 92px; border: 3px solid #2580d7;
+      border-radius: 30px; background: linear-gradient(to bottom, #2580d7 0 50%, white 50%);
+      transform: rotate(39deg);
+    }
+    .capsule.two {
+      border-color: #1aa994;
+      background: linear-gradient(to bottom, #1aa994 0 50%, #f7fffd 50%);
+      transform: rotate(-13deg) translateY(-9px);
+    }
+    .tablet {
+      width: 61px; height: 61px; border-radius: 50%;
+      background: linear-gradient(135deg, #fff 0 48%, #f3ead0 49% 54%, #fff 55%);
+      box-shadow: inset 0 -6px 0 #eee3c5;
+      transform: translateY(42px);
+    }
+    .shield {
+      color: white;
+      background: #18a995;
+      width: 75px; height: 88px;
+      clip-path: polygon(50% 0, 94% 20%, 92% 62%, 76% 83%, 50% 100%, 24% 83%, 8% 62%, 6% 20%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px; font-weight: 400;
+      transform: rotate(3deg) translateY(10px);
+    }
+    .main {
+      max-width: 1120px;
+      margin: 26px auto 22px;
+      padding: 0 0;
+      display: grid;
+      grid-template-columns: 1.72fr 1fr;
+      gap: 20px;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 22px 23px 18px;
+      min-width: 0;
+      box-shadow: 0 0 0 1px rgba(220,232,244,.15);
+    }
+    .panel-heading {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      margin-bottom: 5px;
+    }
+    .panel h3 { font-size: 22px; margin: 0; color: var(--navy); letter-spacing: -.5px; }
+    .count {
+      background: #e1f5f0; color: #17675e; border-radius: 9px;
+      padding: 6px 12px; font-size: 12px; white-space: nowrap;
+    }
+    .subtext { color: var(--muted); margin: 0 0 17px; line-height: 1.5; }
+    .medicine-list { display: grid; gap: 9px; }
+    .medicine {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 11px 14px;
+      min-height: 68px;
+      display: flex; align-items: center; gap: 17px;
+    }
+    .pill-icon {
+      width: 43px; height: 43px; border-radius: 50%;
+      background: #e0f1ff; display: flex; align-items: center; justify-content: center;
+      flex: 0 0 auto; color: #2784df; font-size: 25px;
+    }
+    .medicine:nth-child(2) .pill-icon { background: #eeebff; color: #7060e8; }
+    .medicine:nth-child(3) .pill-icon { background: #e6f7e9; color: #38a85c; }
+    .medicine-info { flex: 1; min-width: 0; }
+    .medicine-info strong { display: block; font-size: 13px; margin-bottom: 4px; }
+    .medicine-info small { color: var(--muted); font-size: 12px; }
+    .remove {
+      background: transparent; border: 0; color: #7390b4; font-size: 23px;
+      cursor: pointer; padding: 4px 1px;
+    }
+    .add-row {
+      width: 100%; min-height: 58px; margin-top: 15px;
+      border: 1px dashed #8fc7ef; border-radius: 8px; background: #fff;
+      color: #087c90; font-weight: 600; cursor: pointer; font-size: 13px;
+    }
+    .add-row span {
+      display: inline-flex; width: 25px; height: 25px; border-radius: 50%;
+      align-items: center; justify-content: center; background: #09685e;
+      color: white; font-size: 20px; margin-right: 8px; vertical-align: middle;
+    }
+    .notice {
+      background: #edf7ff; border-radius: 9px; padding: 13px 16px;
+      margin-top: 16px; display: flex; gap: 13px; color: var(--muted);
+      line-height: 1.55; font-size: 12px;
+    }
+    .notice .info { color: #1789f6; font-size: 22px; font-weight: 700; }
+    .notice strong { display: block; color: var(--text); margin-bottom: 5px; font-size: 13px; }
+    .evaluate {
+      margin-top: 14px; width: 100%; border: 0; border-radius: 9px;
+      background: linear-gradient(100deg, #07594f, #086257); color: #fff;
+      min-height: 68px; cursor: pointer; font-size: 14px; font-weight: 700;
+      box-shadow: 0 2px 4px rgba(6,80,72,.13);
+    }
+    .evaluate .magnify { font-size: 22px; margin-right: 15px; vertical-align: -2px; }
+    .evaluate small { display: block; font-size: 11px; font-weight: 400; margin-top: 5px; }
+    .caption { text-align: center; color: var(--muted); font-size: 10px; margin: 13px 0 0; }
+    .how-panel { padding: 22px 23px; }
+    .how-panel h3 { margin-bottom: 20px; }
+    .step { display: grid; grid-template-columns: 39px 42px 1fr; gap: 12px; align-items: start; }
+    .step-number {
+      width: 37px; height: 37px; border-radius: 50%; background: #e4f5f1;
+      color: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700;
+    }
+    .step-icon {
+      width: 39px; height: 39px; border-radius: 50%; background: #f2f7fb;
+      display: flex; align-items: center; justify-content: center; color: var(--navy);
+      font-size: 21px;
+    }
+    .step strong { display: block; font-size: 13px; margin: 5px 0 7px; }
+    .step p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.55; }
+    .step-arrow { margin: 7px 0 12px 18px; color: #7899bf; height: 28px; border-left: 1px solid #d7e4f0; padding-left: 0; }
+    .step-arrow span { position: relative; top: 18px; left: -5px; background: white; padding: 0 0 0 0; }
+    .important {
+      border-top: 1px solid var(--line); margin-top: 22px; padding-top: 12px;
+    }
+    .important-card {
+      background: #edf9f6; border-radius: 9px; padding: 14px;
+      display: flex; gap: 13px; color: #43859a; font-size: 12px; line-height: 1.6;
+    }
+    .important-icon {
+      width: 25px; height: 25px; border-radius: 50%; background: #08685e; color: #fff;
+      font-weight: 800; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;
+    }
+    .important-card strong { display: block; color: #17675e; margin: 2px 0 7px; }
+    footer {
+      background: #f7fafc; border-top: 1px solid #f1f5f8;
+      padding: 20px max(6.5%, calc((100% - 1120px)/2));
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    .footer-item { display: flex; gap: 13px; align-items: flex-start; padding: 0 12px; border-right: 1px solid #dce7f0; }
+    .footer-item:first-child { padding-left: 0; }
+    .footer-item:last-child { border-right: 0; }
+    .footer-icon { color: var(--navy); font-size: 24px; }
+    .footer-item strong { display: block; font-size: 11px; margin-bottom: 5px; }
+    .footer-item p { color: var(--muted); font-size: 10px; line-height: 1.5; margin: 0; }
+    #results {
+      display: none; margin-top: 18px; border: 1px solid #cfe7df; border-radius: 9px;
+      padding: 16px; background: #f6fcfa; line-height: 1.5;
+    }
+    #results h4 { margin: 0 0 7px; color: var(--deep-teal); font-size: 16px; }
+    #results p { margin: 0; color: var(--muted); }
+    .form-row { display: flex; gap: 8px; padding: 10px 0 0; }
+    .form-row input {
+      min-width: 0; flex: 1; border: 1px solid var(--line); border-radius: 7px;
+      padding: 10px; font: inherit;
+    }
+    .form-row button {
+      border: 0; border-radius: 7px; padding: 0 14px; background: #e0f4ef;
+      color: #07594f; font-weight: 700; cursor: pointer;
+    }
+    @media (max-width: 1160px) {
+      .main { margin-left: 4%; margin-right: 4%; }
+      .topbar { padding-left: 4%; padding-right: 4%; gap: 25px; }
+      .hero { padding-left: 4%; padding-right: 4%; }
+      footer { padding-left: 4%; padding-right: 4%; }
+    }
+    @media (max-width: 820px) {
+      .topbar { gap: 18px; height: auto; min-height: 68px; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; }
+      .brand { font-size: 24px; }
+      nav { order: 3; width: 100%; height: 35px; justify-content: space-between; gap: 10px; }
+      nav a.active::after { bottom: 0; }
+      .hero { grid-template-columns: 1fr; padding-top: 32px; gap: 5px; }
+      .hero-art { height: 175px; }
+      .art-blob { height: 155px; width: 300px; }
+      .main { grid-template-columns: 1fr; margin-top: 18px; }
+      footer { grid-template-columns: repeat(2, 1fr); }
+      .footer-item:nth-child(2) { border-right: 0; }
+    }
+    @media (max-width: 480px) {
+      .hero h2 { font-size: 23px; }
+      .hero p { font-size: 14px; }
+      .panel { padding: 17px 14px; }
+      .panel h3 { font-size: 20px; }
+      .step { grid-template-columns: 34px 35px 1fr; gap: 8px; }
+      .step-number { width: 33px; height: 33px; }
+      .step-icon { width: 34px; height: 34px; }
+      footer { gap: 17px 10px; }
+      .footer-item { padding: 0 5px; gap: 8px; }
+      .footer-icon { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon">💊</span><span>Meds<span>Check</span></span></div>
+    <nav aria-label="Main navigation">
+      <a class="active" href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="prototype">Prototype</div>
+  </header>
+
+  <section class="hero" id="home">
+    <div>
+      <h1>Meds<span>Check</span></h1>
+      <h2>Check for potential medicine interactions and risks.</h2>
+      <p>Enter the medicines you’re taking, and we’ll analyze potential interactions, side effects, and safety concerns using trusted sources and AI.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="art-blob">
+        <div class="capsule"></div>
+        <div class="capsule two"></div>
+        <div class="tablet"></div>
+        <div class="shield">✓</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main">
+    <section class="panel" aria-labelledby="medicine-heading">
+      <div class="panel-heading">
+        <h3 id="medicine-heading">Your medicine list</h3>
+        <span class="count" id="medicine-count">3 medicines</span>
+      </div>
+      <p class="subtext">Add each medicine separately. Include the strength when known.</p>
+
+      <div class="medicine-list" id="medicine-list">
+        <div class="medicine">
+          <div class="pill-icon">♧</div>
+          <div class="medicine-info"><strong>Metformin</strong><small>500 mg</small></div>
+          <button class="remove" aria-label="Remove Metformin" onclick="removeMedicine(this)">×</button>
+        </div>
+        <div class="medicine">
+          <div class="pill-icon">♧</div>
+          <div class="medicine-info"><strong>Lisinopril</strong><small>10 mg</small></div>
+          <button class="remove" aria-label="Remove Lisinopril" onclick="removeMedicine(this)">×</button>
+        </div>
+        <div class="medicine">
+          <div class="pill-icon">♧</div>
+          <div class="medicine-info"><strong>Ibuprofen</strong><small>200 mg</small></div>
+          <button class="remove" aria-label="Remove Ibuprofen" onclick="removeMedicine(this)">×</button>
+        </div>
+      </div>
+
+      <button class="add-row" onclick="showAddMedicine()"><span>+</span>Add another medicine</button>
+      <div id="add-form" class="form-row" style="display:none">
+        <input id="new-medicine" type="text" placeholder="Medicine name and strength" aria-label="New medicine name and strength" />
+        <button onclick="addMedicine()">Add</button>
+      </div>
+
+      <div class="notice">
+        <div class="info">ⓘ</div>
+        <div><strong>Before evaluating</strong>Medicine names alone may not be enough. Strength, formulation, age, relevant medical conditions, and other factors can change the risk assessment.</div>
+      </div>
+      <button class="evaluate" onclick="evaluateMedicines()"><span class="magnify">⌕</span>Evaluate medicines<small>Submit list to risk analysis backend</small></button>
+      <p class="caption">Example medicines and illustrative UI only. No evaluation has been performed.</p>
+
+      <div id="results" role="status" aria-live="polite">
+        <h4>Ready to evaluate</h4>
+        <p id="result-message">Connect this button to your backend API to request an assessment.</p>
+      </div>
+    </section>
+
+    <aside class="panel how-panel" id="how-it-works">
+      <h3>How it works</h3>
+      <div class="step">
+        <div class="step-number">1</div><div class="step-icon">▤</div>
+        <div><strong>Enter your medicines</strong><p>Add medicine names and strengths (or just the names).</p></div>
+      </div>
+      <div class="step-arrow"><span>⌄</span></div>
+      <div class="step">
+        <div class="step-number">2</div><div class="step-icon">▤</div>
+        <div><strong>We analyze the risks</strong><p>Your list is securely sent to our backend, which uses trusted sources and an LLM to check for potential interactions, side effects, and safety concerns.</p></div>
+      </div>
+      <div class="step-arrow"><span>⌄</span></div>
+      <div class="step">
+        <div class="step-number">3</div><div class="step-icon">♢</div>
+        <div><strong>Get clear results</strong><p>See potential risks, explanations, and suggested next steps, with links to reliable sources.</p></div>
+      </div>
+      <div class="important" id="about">
+        <div class="important-card">
+          <div class="important-icon">!</div>
+          <div><strong>Important</strong>This tool provides general information and is not a substitute for professional medical advice. Always consult a healthcare provider or pharmacist for personal advice.</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer id="faq">
+    <div class="footer-item"><div class="footer-icon">♢</div><div><strong>Trusted sources</strong><p>Uses reputable drug information and interaction databases.</p></div></div>
+    <div class="footer-item"><div class="footer-icon">◉</div><div><strong>AI-powered analysis</strong><p>Combines trusted data with advanced language models.</p></div></div>
+    <div class="footer-item"><div class="footer-icon">♙</div><div><strong>No data stored</strong><p>Your medicine list is not saved on our servers.</p></div></div>
+    <div class="footer-item"><div class="footer-icon">♢</div><div><strong>Your safety matters</strong><p>Better information. Safer decisions.</p></div></div>
+  </footer>
+
+  <script>
+    // Demo UI only. Set this to your backend endpoint when it is available.
+    const API_URL = ""; // Example: "http://localhost:8000/api/evaluate"
+
+    function updateCount() {
+      const count = document.querySelectorAll("#medicine-list .medicine").length;
+      document.getElementById("medicine-count").textContent = `${count} medicine${count === 1 ? "" : "s"}`;
+    }
+
+    function removeMedicine(button) {
+      button.closest(".medicine").remove();
+      updateCount();
+    }
+
+    function showAddMedicine() {
+      const form = document.getElementById("add-form");
+      form.style.display = form.style.display === "flex" ? "none" : "flex";
+      if (form.style.display === "flex") document.getElementById("new-medicine").focus();
+    }
+
+    function addMedicine() {
+      const input = document.getElementById("new-medicine");
+      const value = input.value.trim();
+      if (!value) { input.focus(); return; }
+      const parts = value.split(",");
+      const name = parts[0].trim();
+      const strength = parts.slice(1).join(",").trim() || "Strength not specified";
+      const row = document.createElement("div");
+      row.className = "medicine";
+      row.innerHTML = `
+        <div class="pill-icon">♧</div>
+        <div class="medicine-info"><strong></strong><small></small></div>
+        <button class="remove" aria-label="Remove medicine">×</button>`;
+      row.querySelector("strong").textContent = name;
+      row.querySelector("small").textContent = strength;
+      row.querySelector(".remove").addEventListener("click", function () { removeMedicine(this); });
+      document.getElementById("medicine-list").appendChild(row);
+      input.value = "";
+      updateCount();
+    }
+
+    async function evaluateMedicines() {
+      const medicines = [...document.querySelectorAll("#medicine-list .medicine")].map(row => ({
+        name: row.querySelector("strong").textContent.trim(),
+        strength: row.querySelector("small").textContent.trim()
+      }));
+      const results = document.getElementById("results");
+      const message = document.getElementById("result-message");
+      results.style.display = "block";
+
+      if (medicines.length === 0) {
+        results.querySelector("h4").textContent = "Add a medicine first";
+        message.textContent = "Enter at least one medicine before requesting an evaluation.";
+        return;
+      }
+
+      if (!API_URL) {
+        results.querySelector("h4").textContent = "Frontend demo";
+        message.textContent = "Your medicine list is ready to submit. Configure API_URL in this HTML file to connect your backend. No real risk evaluation has been performed.";
+        console.log("Example request payload:", { medicines });
+        return;
+      }
+
+      results.querySelector("h4").textContent = "Evaluating medicines…";
+      message.textContent = "Sending your list to the analysis service.";
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ medicines })
+        });
+        if (!response.ok) throw new Error(`Request failed (${response.status})`);
+        const data = await response.json();
+        results.querySelector("h4").textContent = "Evaluation response received";
+        message.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        results.querySelector("h4").textContent = "Unable to evaluate";
+        message.textContent = `${error.message}. Check that your backend is running and CORS is configured.`;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The repository contains no source code yet, and it isn't a git repository. It holds a single UI mockup, `UX/MedsCheckDashboard.png`, a `README.md`, and planning docs in `docs/`. There are no build, lint, or test commands and no package manifest. When the stack is chosen, update this file with the real commands and architecture.
 
+## Pre-PoC demo (`poc/`)
+
+`poc/` holds the runnable demo from `docs/pre-poc-demo.md`: `poc/api` (FastAPI, `POST /api/evaluate`) and `poc/web` (Vite + React). `poc/medscheck.html` is the original static mockup, kept for reference. Run commands are in `poc/README.md`. The field is `dosage`, not `strength`.
+
 ## Planning docs
 
 - `docs/prd.md`: product requirements.
